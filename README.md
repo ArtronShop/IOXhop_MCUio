@@ -1,6 +1,21 @@
 # IOXhop_MCUio Library for Arduino
 ## English
 
+Use your mcu to i/o expansion of the I2C interface
+
+### Arduino Borads Setup
+
+Upload Sketch to Arduino Uno R3 / Pro Mini 3.3V / 5.5V / Nano use file ```ATmega328_Arduino.ino```
+
+### Wiring Diagram
+
+this library use I2C interface, connect SDA to SDA and SCL to SCL
+
+| Pin | Arduino Boards | ESP8266 | NodeMCU |
+|-----|:--------------:|:-------:|:-------:|
+| SCL |       A5       |  GPIO5  |    D1   |
+| SDA |       A4       |  GPIO4  |    D2   |
+
 ### Install
  * Download library file : https://github.com/ioxhop/IOXhop_MCUio/releases/download/1.0/IOXhop_MCUio.zip
  * Run arduino ide, click Sketch > Include Library > Add .ZIP Library...
@@ -10,7 +25,58 @@
 ### Devices Support
  * ESP8266 / ESP8285 / ESP32
  * All arduino boards
- 
+
+### Example
+
+MCUio_Blink.ino
+
+```Arduino
+/* File              : MCUio_Blink.ino 
+   Codeing By IOXhop : www.ioxhop.com
+   Sonthaya Nongnuch : www.fb.me/maxthai */
+
+#include <IOXhop_MCUio.h>
+
+IOXhop_MCUio mcu(8);
+// IOXhop_MCUio mcu(8, D1, D2); // if you use ESP8266 / ESP32, you can select SDA and SCL pin.
+
+void setup() {
+  delay(2000); // Wait MCU setup
+  mcu.mode(13, OUTPUT); // Set pin 13 to OUTPUT
+}
+
+void loop() {
+  mcu.set(13, HIGH); // Set pin 13 to logic 1 (HIGH)
+  delay(500);
+  mcu.set(13, LOW); // Set pin 13 to logic 0 (LOW)
+  delay(500);
+}
+```
+
+MCUio_AnalogReadSerial.ino
+
+```Arduino
+/* File              : MCUio_AnalogReadSerial.ino 
+   Codeing By IOXhop : www.ioxhop.com
+   Sonthaya Nongnuch : www.fb.me/maxthai */
+
+#include <IOXhop_MCUio.h>
+
+IOXhop_MCUio mcu(8);
+// IOXhop_MCUio mcu(8, D1, D2); // if you use ESP8266 / ESP32, you can select SDA and SCL pin.
+
+void setup() {
+  Serial.begin(9600); // Setup serial
+  delay(2000); // Wait MCU setup
+}
+
+void loop() {
+  int value = mcu.Aget(mcu.A0); // Read analog value from A0
+  Serial.println(value); // Send value to Serial Monitor
+  delay(10);
+}
+``` 
+
 ### License
 This library open source. Copied, distributed for free
  * http://www.ioxhop.com/
